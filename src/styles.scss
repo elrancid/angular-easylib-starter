@@ -1,1 +1,174 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/theming';
+
+$light-primary: mat-palette($mat-blue);
+$light-accent: mat-palette($mat-deep-orange, A200, A100, A400);
+$light-warn: mat-palette($mat-red);
+$dark-primary: mat-palette($mat-blue-grey);
+$dark-accent:  mat-palette($mat-amber, A200, A100, A400);
+$dark-warn:    mat-palette($mat-deep-orange);
+
+// $dark-primary-text: rgba(black, 0.87);
+// $dark-secondary-text: rgba(black, 0.54);
+// $dark-disabled-text: rgba(black, 0.38);
+// $dark-dividers: rgba(black, 0.12);
+// $dark-focused: rgba(black, 0.12);
+// $light-primary-text: white;
+// $light-secondary-text: rgba(white, 0.7);
+// $light-disabled-text: rgba(white, 0.5);
+// $light-dividers: rgba(white, 0.12);
+// $light-focused: rgba(white, 0.12);
+
+
+@import '~@easylib/material/theming';
+
+// // https://material.angular.io/guide/typography
+// $custom-typography: mat-typography-config(
+//   $font-family: "'Arial Black', 'Arial Bold', arial, Gadget, sans-serif",
+//   $headline: mat-typography-level(32px, 48px, 700),
+//   $body-1: mat-typography-level(16px, 24px, 500)
+// );
+
+// // Override typography CSS classes (e.g., mat-h1, mat-display-1, mat-typography, etc.).
+// // @include mat-base-typography($custom-typography);
+
+// // Override typography for a specific Angular Material components.
+// // @include mat-checkbox-typography($custom-typography);
+
+// // Override typography for all Angular Material, including mat-base-typography and all components.
+// // @include angular-material-typography($custom-typography);
+
+
+// // Include the common styles for Angular Material. We include this here so that you only
+// // have to load a single css file for Angular Material in your app.
+// // Be sure that you only ever include this mixin once!
+// @include mat-core($custom-typography);
+
+// $app-primary: (
+//   50: #fafafd,
+//   100: #d4dbe5,
+//   200: #c8d1dd,
+//   300: #587599,
+//   400: #3a4f7f,
+//   500: #2e4570,
+//   600: #203761,
+//   700: #112750,
+//   800: #06193b,
+//   900: #000f29,
+//   A100: #a4c4ff,
+//   A200: #669afa,
+//   A400: #2d76fd,
+//   A700: #0011ff,
+//   contrast: (
+//     50: $dark-primary-text,
+//     100: $dark-primary-text,
+//     200: $dark-primary-text,
+//     300: $light-primary-text,
+//     400: $light-primary-text,
+//     500: $light-primary-text,
+//     600: $light-primary-text,
+//     700: $light-primary-text,
+//     800: $light-primary-text,
+//     900: $light-primary-text,
+//     A100: $dark-primary-text,
+//     A200: $light-primary-text,
+//     A400: $light-primary-text,
+//     A700: $light-primary-text,
+//   )
+// );
+
+// $app-accent: (
+//   50: #edb5c0,
+//   100: #ed97a4,
+//   200: #dd646c,
+//   300: #d33d45,
+//   400: #dd1d22,
+//   500: #e20d08,
+//   600: #d30307,
+//   700: #c10001,
+//   800: #b40000,
+//   900: #a50000,
+//   A100: #ed5452,
+//   A200: #ed1c24,
+//   A400: #ed0016,
+//   A700: #c30000,
+//   contrast: (
+//     50: $dark-primary-text,
+//     100: $dark-primary-text,
+//     200: $dark-primary-text,
+//     300: $dark-primary-text,
+//     400: $dark-primary-text,
+//     500: $light-primary-text,
+//     600: $light-primary-text,
+//     700: $light-primary-text,
+//     800: $light-primary-text,
+//     900: $light-primary-text,
+//     A100: $dark-primary-text,
+//     A200: $light-primary-text,
+//     A400: $light-primary-text,
+//     A700: $light-primary-text,
+//   )
+// );
+
+
+// // Define the palettes for your theme using the Material Design palettes available in palette.scss
+// // (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// // hue. Available color palettes: https://material.io/design/color/
+// $app-angular-primary: mat-palette($app-primary);
+// $app-angular-accent: mat-palette($app-accent, A200, A100, A400);
+
+// // The warn palette is optional (defaults to red).
+// $app-angular-warn: mat-palette($mat-red);
+
+// // Create the theme object (a Sass map containing all of the palettes).
+// $app-angular-theme: mat-light-theme($app-angular-primary, $app-angular-accent, $app-angular-warn);
+
+// // Include theme styles for core and each component used in your app.
+// // Alternatively, you can import and @include the theme mixins for each component
+// // that you are using.
+// @include angular-material-theme($app-angular-theme);
+
+
+
+// html, body { height: 100%; }
+// body {
+//   margin: 0;
+//   font-family: 'Arial Black', 'Arial Bold', arial, Gadget, sans-serif;
+//   font-size: 16px;
+// }
+
+// * {
+//   box-sizing: border-box;
+// }
+
+// .primary-color {
+//   color: $primary-color;
+// }
+// .accent-color {
+//   color: $accent-color;
+// }
+
+// .icon {
+//   height: 38px;
+// }
+
+// .spacer {
+//   flex: 1 1 auto;
+// }
+
+// /* Material */
+
+// .date-picker-holiday {
+//   background: $accent-color;
+//   border-radius: 100%;
+// }
+// .date-picker-holiday .mat-calendar-body-cell-content {
+//   color: $text-inverse-color;
+// }
+
+// .mat-fab[ng-reflect-color=grey],
+// .mat-mini-fab[ng-reflect-color=grey] {
+//   background-color: mat-color($app-primary, 200);
+// }
+// .mat-icon-button[ng-reflect-color=green] {
+//   color: #00a651;
+// }

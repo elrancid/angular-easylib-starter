@@ -1,0 +1,56 @@
+<div>Language: {{ (settings$ | async).language }}</div>
+<div></div>
+
+<button
+mat-button
+type="button"
+aria-label="Logout"
+(click)="logout()"
+>Logout
+</button>
+<!-- 
+<button
+mat-button
+type="button"
+aria-label="Toggle dark theme"
+(click)="toggleDarkTheme()"
+>Toggle dark
+</button>
+ -->
+<button
+mat-button
+type="button"
+aria-label="Reset cache"
+(click)="resetCache()"
+>Reset cache
+</button>
+
+<!-- <lib-toggle
+[form]="form"
+controlName="darkTheme"
+label="Dark theme"
+></lib-toggle> -->
+
+<lib-radio-buttons
+[form]="form"
+controlName="language"
+[items]="languages"
+itemValuePath="value"
+itemLabelPath="label"
+></lib-radio-buttons>
+
+<lib-radio-buttons
+[form]="form"
+controlName="themeMode"
+[items]="modeItems"
+itemValuePath="value"
+itemLabelPath="label"
+></lib-radio-buttons>
+
+<lib-radio-buttons
+[form]="form"
+controlName="themeSize"
+[items]="sizeItems"
+itemValuePath="value"
+itemLabelPath="label"
+></lib-radio-buttons>
