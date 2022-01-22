@@ -1,0 +1,74 @@
+import { Injectable } from '@angular/core';
+import { LogService } from '@easylib/log';
+import { Store } from '@ngrx/store';
+import { Red5Config, red5Config } from 'src/app/features/config';
+import { Composition } from '../red5/declarations';
+// import { Red5Server } from '../red5/red5server';
+import { Red5 } from '../red5/red5';
+import { actionCompositionsChange } from '../store/compositions/compositions.actions';
+import { AppState } from '../store/core.state';
+
+/**
+ * Simple wrapper for feathers
+ */
+@Injectable({
+  providedIn: 'root'
+})
+// export class TwigService extends Red5Server {
+export class TwigRed5Service extends Red5 {
+
+  public logs = true;
+
+  // private red5Server?: Red5Server;
+
+  constructor(
+    private logService: LogService,
+    private store: Store<AppState>,
+  ) {
+    super();
+    logService.log('Twig.constructor() create Red5Server instance');
+    // this.red5Server = new Red5Server();
+    this.init(red5Config);
+  }
+  
+  public init(config: Red5Config) {
+    super.init(config);
+    this.logService.log('Twig.init() config:', config);
+    // if (this.red5Server) {
+    //   this.red5Server.init(config);
+    //   this.red5Server.on('ready', () => {
+    //     this.logService.log('Twig.service() red5Server ready');
+    //   });
+    //   this.red5Server.on('open', () => {
+    //     this.logService.log('Twig.service() red5Server open');
+    //   });
+    //   this.red5Server.on('closed', () => {
+    //     this.logService.log('Twig.service() red5Server closed');
+    //   });
+    //   this.red5Server.on('compositions', (compositions: any[]) => {
+    //     this.logService.log('Twig.service() red5Server compositions:', compositions);
+    //   });
+    // }
+
+    this.on('compositions', (compositions: Composition[]) => {
+      this.logService.log('TwigService on compositions:', compositions);
+      // dispath to store
+      this.store.dispatch(actionCompositionsChange({compositions}));
+    });
+  }
+
+  // public service(name: string) {
+  //   this.log('Twig.service() name:', name);
+  // }
+
+  // public connect(): void {
+  //   this.log('Twig.connect()');
+  //   this.red5Server!.connect();
+  // }
+
+  // public disconnect(): void {
+  //   this.log('Twig.disconnect()');
+  //   this.red5Server!.disconnect();
+  // }
+
+}

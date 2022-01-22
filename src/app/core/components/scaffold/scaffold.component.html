@@ -1,0 +1,36 @@
+<easy-sidenav #sidenav>
+  <easy-nav-list
+  class="sidenav"
+  [list]="translatedNavigationList"
+  ></easy-nav-list>
+  <div class="wrapper">
+
+    <easy-browser-tabs>
+      <easy-button-icon
+      beforeNavButtons
+      color=""
+      icon="menu"
+      (click)="sidenav.toggle()"
+      ></easy-button-icon>
+    </easy-browser-tabs>
+
+<!--
+    <mat-toolbar color="primary">
+      <button mat-icon-button class="d-md-none" (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <button mat-icon-button class="" aria-label="Storybox">
+        <img class="icon" src="assets/icons/logo.png">
+      </button>
+      <span class="spacer"></span>
+      <span>Story Box</span>
+      <span class="spacer"></span>
+      <mat-icon color="accent">lock</mat-icon>
+    </mat-toolbar>
+    <div class="content">
+      <ng-content></ng-content>
+    </div>
+-->
+  </div>
+</easy-sidenav>
+<app-theme-manager></app-theme-manager>

@@ -1,0 +1,1 @@
+/Users/davide/Documents/Lavori/Streamext/twig-feathers/src/red5/declarations.d.ts

@@ -10,6 +10,12 @@ import { SettingsComponent } from './settings.component';
 import { ToggleModule } from '@easylib/material';
 import { RadioButtonsModule } from '@easylib/material';
 
+// import { TranslateModule } from '@ngx-translate/core';
+import { LazySharedModule } from 'src/app/shared/lazy-shared.module';
+
+// import { MatRadioModule } from '@angular/material/radio';
+// import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [SettingsComponent],
   imports: [
@@ -19,6 +25,11 @@ import { RadioButtonsModule } from '@easylib/material';
     // FormModule,
     ToggleModule,
     RadioButtonsModule,
+
+    // MatRadioModule,
+    // ReactiveFormsModule,
+    // TranslateModule.forChild({ extend: true }),
+    LazySharedModule
   ],
 })
 export class SettingsModule { }

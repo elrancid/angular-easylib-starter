@@ -3,7 +3,7 @@
     "long": "Angular NgRx Material Starter",
     "short": "Angular Starter"
   },
-  "menu": {
+  "pages": {
     "home": "Home",
     "test": "Test",
     "about": "About",
@@ -12,6 +12,28 @@
     "login": "Sign in",
     "logout": "Logout",
     "settings": "Settings"
+  },
+  "settings": {
+    "language": "Language",
+    "theme": "Theme",
+    "themeMode": "Appearance",
+    "themeSize": "Size",
+    "languages": {
+      "en": "English",
+      "it": "Italian"
+    },
+    "modes": {
+      "light": "Light",
+      "dark": "Dark",
+      "auto": "Auto"
+    },
+    "sizes": {
+      "xs": "80%",
+      "s": "90%",
+      "m": "100%",
+      "l": "110%",
+      "xl": "120%"
+    }
   },
   "anms.about.change-theme": "Change Theme",
   "anms.about.check-blogs": "or check blogs about",

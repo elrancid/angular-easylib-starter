@@ -172,3 +172,8 @@ $dark-warn:    mat-palette($mat-deep-orange);
 // .mat-icon-button[ng-reflect-color=green] {
 //   color: #00a651;
 // }
+
+[browser-tab-page] {
+  display: block;
+  margin: 16px;
+}

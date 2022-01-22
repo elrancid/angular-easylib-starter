@@ -1,4 +1,4 @@
-<div>Language: {{ (settings$ | async).language }}</div>
+<div>{{ 'settings.language' | translate }}: {{ 'settings.languages.' + ((settings$ | async).language) | translate }}</div>
 <div></div>
 
 <button
@@ -25,32 +25,43 @@ aria-label="Reset cache"
 >Reset cache
 </button>
 
-<!-- <lib-toggle
+<!-- <easy-toggle
 [form]="form"
 controlName="darkTheme"
 label="Dark theme"
-></lib-toggle> -->
+></easy-toggle> -->
 
-<lib-radio-buttons
+<easy-radio-buttons
 [form]="form"
+[logs]="true"
 controlName="language"
 [items]="languages"
 itemValuePath="value"
 itemLabelPath="label"
-></lib-radio-buttons>
+></easy-radio-buttons>
 
-<lib-radio-buttons
+<easy-radio-buttons
 [form]="form"
 controlName="themeMode"
 [items]="modeItems"
 itemValuePath="value"
 itemLabelPath="label"
-></lib-radio-buttons>
+></easy-radio-buttons>
 
-<lib-radio-buttons
+<easy-radio-buttons
 [form]="form"
 controlName="themeSize"
 [items]="sizeItems"
 itemValuePath="value"
 itemLabelPath="label"
-></lib-radio-buttons>
+></easy-radio-buttons>
+
+<!--
+------
+<form [formGroup]="form" novalidate>
+  <mat-radio-group aria-label="Select an option" formControlName="language">
+    <mat-radio-button value="en">English</mat-radio-button>
+    <mat-radio-button value="it">Italiano</mat-radio-button>
+  </mat-radio-group>
+</form>
+-->

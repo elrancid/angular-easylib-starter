@@ -1,0 +1,14 @@
+:host {
+  overflow: auto;
+}
+.container {
+  min-height: 100%;
+}
+easy-card {
+  width: 300px;
+  margin: 20px;
+}
+.logo {
+  background-image: url('/assets/logo.png');
+  background-size: cover;
+}

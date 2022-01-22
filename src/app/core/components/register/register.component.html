@@ -1,0 +1,45 @@
+<div class="container" fxLayout="row" fxLayoutAlign="space-around center">
+  <easy-card title="{{ 'pages.register.title' | translate }}" [actions]="true">
+
+    <p>{{ 'pages.register.haveAccount' | translate }} <a routerLink="/login">{{ 'pages.register.login' | translate }}</a></p>
+
+    <form
+    [formGroup]="form!"
+    (ngSubmit)="submit()">
+
+      <easy-input
+      [form]="form!"
+      controlName="email"
+      label="{{ 'pages.register.formLabels.email' | translate }}"
+      placeholder="email"
+      [errorMessage]="formService.getErrorMessageFunction()"
+      ></easy-input>
+
+      <easy-input
+      [form]="form!"
+      controlName="password"
+      [password]="true"
+      label="{{ 'pages.register.formLabels.password' | translate }}"
+      placeholder="password"
+      [errorMessage]="formService.getErrorMessageFunction()"
+      ></easy-input>
+
+      <easy-input
+      [form]="form!"
+      controlName="samepassword"
+      [password]="true"
+      label="{{ 'pages.register.formLabels.samepassword' | translate }}"
+      placeholder="password"
+      [errorMessage]="formService.getErrorMessageFunction()"
+      ></easy-input>
+
+    </form>
+
+    <easy-button
+    actions
+    label="{{ 'pages.register.formLabels.register' | translate }}"
+    [disabled]="!this.form?.valid"
+    (press)="submit()"
+    ></easy-button>
+  </easy-card>
+</div>

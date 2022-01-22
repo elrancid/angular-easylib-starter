@@ -125,5 +125,8 @@
       }
     }
   },
-  "defaultProject": "angular-easylib-starter"
+  "defaultProject": "angular-easylib-starter",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
