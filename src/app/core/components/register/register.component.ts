@@ -6,7 +6,7 @@ import { ComponentTab, OnComponentTabActivate } from '@easylib/material';
 // import { map, filter } from 'rxjs/operators';
 
 // import { LoggableComponent } from '@easylib/log';
-import { AuthService } from 'src/app/core/feathers/auth.service';
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { FormStructure } from '@easylib/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FormService } from 'src/app/core/services/form/form.service';

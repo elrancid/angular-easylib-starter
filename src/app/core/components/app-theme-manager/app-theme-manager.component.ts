@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { AppState } from 'src/app/core/store/core.state';
+import { AppState } from 'src/app/store/app.state';
 import { ThemeMode, ThemeSize } from 'src/app/core/store/settings/settings.model';
 import { getSettingsThemeMode, getSettingsThemeSize } from 'src/app/core/store/settings/settings.selectors';
 import { ThemeService } from './theme.service';

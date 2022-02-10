@@ -1,22 +1,33 @@
-import { HttpClient } from '@angular/common/http';
+// import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ApiService } from '@easylib/core';
+import { Loggable } from '@easylib/log';
 import * as moment from 'moment';
 import { shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  constructor(public jwtHelper: JwtHelperService, private http: HttpClient) {
-    console.log('AuthService.constructor()');
+export class AuthService extends Loggable {
+
+  public override logs = true;
+
+  constructor(
+    public jwtHelper: JwtHelperService,
+    // private http: HttpClient,
+    private apiService: ApiService,
+  ) {
+    super();
+    this.log('AuthService.constructor()');
+    this.apiService.logs = true;
   }
 
   public isAuthenticated(): boolean {
-    console.log('AuthService.isAuthenticated()');
+    this.log('AuthService.isAuthenticated()');
     // Get token from localstorage
     let token = localStorage.getItem('token');
-    console.log('AuthService.isAuthenticated() token:', token);
+    this.log('AuthService.isAuthenticated() token:', token);
     // Check if token is null or empty
     if (token) {
       // Check whether the token is expired and return
@@ -28,17 +39,29 @@ export class AuthService {
     }
   }
 
-  login(email:string, password:string ) {
-    return this.http.post<any>('/api/login', {email, password}).
-    pipe(
-      shareReplay()
-    );
-    // this is just the HTTP call, we still need to handle the reception of the token
+  login(credentials: Record<string, any>): Promise<any> {
+    this.log('AuthService.login() credential:', credentials);
+    return this.apiService.post('auth/login');
+    // .then((result) => {
+    //   console.log('AuthService.login() result:', result);
+    // })
+    // .catch((error) => {
+    //   console.log('AuthService.login() error:', error);
+    // });
+    // return this.http.post<any>('/api/login', credentials).
+    // pipe(
+    //   shareReplay()
+    // );
   }
 
-  public register(credential: {email: string, password: string}) {
-    console.log('AuthService.register() credential:', credential);
-    // TODO
+  public getToken(): string | null {
+    // return localStorage.getItem('access_token');
+    return null;
+  }
+
+  public register(credentials: {email: string, password: string}) {
+    this.log('AuthService.register() credential:', credentials);
+    return this.apiService.post('user/create');
   }
 
   private setSession(authResult: any) {
@@ -54,12 +77,15 @@ export class AuthService {
   }
 
   public isLoggedIn(): any {
-    return moment().isBefore(this.getExpiration());
+    this.log('AuthService.isLoggedIn()');
+    const isBefore = moment().isBefore(this.getExpiration());
+    this.log('AuthService.isLoggedIn() isBefore:', isBefore);
+    return isBefore;
   }
 
-  isLoggedOut(): any {
-    return !this.isLoggedIn();
-  }
+  // isLoggedOut(): any {
+  //   return !this.isLoggedIn();
+  // }
 
   getExpiration(): any {
     const expiration = localStorage.getItem("expires_at");

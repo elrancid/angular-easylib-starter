@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AppState } from '../../store/core.state';
+import { AppState } from '../../../store/app.state';
 import { Language } from '../../store/settings/settings.model';
 import { getSettingsLanguage } from '../../store/settings/settings.selectors';
 import * as moment from 'moment';
@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import {
   HttpClientModule,
   HttpClient,
-  HTTP_INTERCEPTORS
+  // HTTP_INTERCEPTORS
 } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';

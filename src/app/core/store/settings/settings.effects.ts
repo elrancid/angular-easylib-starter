@@ -12,14 +12,14 @@ import {
   actionSettingsChangeThemeSize,
 } from './settings.actions';
 import { Util, StorageService } from '@easylib/util';
-import { AppState } from '../core.state';
+import { AppState } from '../../../store/app.state';
 import { SettingsState } from './settings.model';
 import { Loggable } from '@easylib/log';
 
 @Injectable()
 export class SettingsEffects extends Loggable implements OnInitEffects {
 
-  public override logs = false;
+  public override logs = true;
 
   constructor(
     private actions$: Actions,

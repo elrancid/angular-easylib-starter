@@ -1,29 +1,22 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-// import {Router} from '@angular/router';
-// import { LoggableComponent } from 'src/app/core/log/loggable.component';
 import { LoggableComponent } from '@easylib/log';
-// import { AuthService } from 'src/app/core/auth/auth.service';
 import { Observable, Subject } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import { AppState } from 'src/app/core/store/core.state';
+import { TranslateService } from '@ngx-translate/core';
+import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
+import { AppState } from 'src/app/store/app.state';
 import { Language } from 'src/app/core/store/settings/settings.model';
 import { getSettingsLanguage } from 'src/app/core/store/settings/settings.selectors';
-
-// import { SidenavComponent } from '@easylib/material/lib/sidenav/sidenav.component';
-
-// import { RouterService } from 'src/app/core/router/router.service';
-// import { MemoryboxService } from 'src/app/core/services/memorybox.service';
-// import { MemoryboxType } from 'src/app/core/services/memorybox-type';
-// import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
-// import { Moment } from 'moment';
-// import * as moment from 'moment';
-
-// import { ElementRef } from '@angular/core';
-// import { MatSidenavContainer } from '@angular/material/sidenav';
-
-import { TranslateService } from '@ngx-translate/core';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
-
+import { UserState } from 'src/app/core/store/auth/auth.model';
+import { getAuthUser, getAuthReady, getAuthSessionId } from 'src/app/core/store/auth/auth.selectors';
+import { NavListItems } from '@easylib/material';
+import { AuthService } from '../../auth/auth.service';
+import { menu } from 'src/app/features/config';
+import { actionCompositionsChange } from '../../../store/compositions/compositions.actions';
+import { actionMixersChange } from '../../../store/mixers/mixers.actions';
+import { actionEventsChange } from '../../../store/events/events.actions';
+import { actionGroupsChange } from '../../../store/groups/groups.actions';
+import { actionSessionChange } from '../../../store/session/session.actions';
 @Component({
   selector: 'app-scaffold',
   templateUrl: './scaffold.component.html',
@@ -31,49 +24,33 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 })
 export class ScaffoldComponent extends LoggableComponent implements OnInit, OnDestroy {
 
-  @Input() logs = true;
+  @Input() override logs = false;
 
-  // @ViewChild('container') container: ElementRef<MatSidenavContainer>;
-  @ViewChild('sidenav') sidenav: ElementRef;
-  // @ViewChild(SidenavComponent) private sidenav: SidenavComponent;
-  // public sidenavOpened: boolean = true;
-  // public sidenavAutosize: boolean = true;
+  @ViewChild('sidenav') sidenav!: ElementRef;
 
+  // private navigation = [
+  //   { routerLink: 'home', label: 'pages.home.title' },
+  //   { routerLink: 'compositionedit', label: 'pages.compositionEdit.title' },
+  // ];
+  // private navigationList = [
+  //   ...this.navigation,
+  //   { routerLink: 'settings', label: 'pages.settings.title' }
+  // ];
+  translatedNavigationList: NavListItems = [];
 
-  logo = require('../../../../assets/icons/logo.png').default;
-  // languages = ['it', 'en'];
-  private navigation = [
-    { routerLink: 'home', label: 'pages.home' },
-    { routerLink: 'test', label: 'pages.test' },
-    { routerLink: 'test2', label: 'test2' },
-    { routerLink: 'about', label: 'pages.about' },
-    { routerLink: 'feature-list', label: 'pages.features' },
-    { routerLink: 'examples', label: 'pages.examples' }
-  ];
-  private navigationList = [
-    ...this.navigation,
-    { routerLink: 'settings', label: 'pages.settings' }
-  ];
-  translatedNavigationList = [];
-
-  // public user$: Observable<object> = this.auth.getUser$();
-  // public activeMemorybox$: Observable<MemoryboxType> = this.memoryboxService.getActiveMemorybox$();
   private stop$: Subject<void> = new Subject();
-  // public activeMemorybox: MemoryboxType;
-  // public closedMemorybox: boolean;
-  // public closedAtMemorybox: Moment;
-
   public language$: Observable<Language> = this.store.pipe(select(getSettingsLanguage));
+  public ready$: Observable<boolean | undefined> = this.store.pipe(select(getAuthReady));
+  public user$: Observable<UserState | undefined> = this.store.pipe(select(getAuthUser));
+  public sessionId$: Observable<string | undefined> = this.store.pipe(select(getAuthSessionId));
 
   constructor(
-    private store: Store<AppState>,
-    // private auth: AuthService,
-    // // private router: Router,
-    // private router: RouterService,
-    // public memoryboxService: MemoryboxService,
-    private translate: TranslateService,
+    protected store: Store<AppState>,
+    protected translate: TranslateService,
+    protected auth: AuthService,
   ) {
     super();
+    this.log('ScaffoldComponent.constructor()');
     // this.log('*********');
     // this.user$ = this.auth.getUser$();
     // this language will be used as a fallback when a translation isn't found in the current language
@@ -83,6 +60,7 @@ export class ScaffoldComponent extends LoggableComponent implements OnInit, OnDe
   }
 
   ngOnInit(): void {
+    this.log('ScaffoldComponent.ngOnInit()');
     // this.log('*********');
     // setTimeout(() => {
     //   this.sidenavAutosize = false;
@@ -107,8 +85,9 @@ export class ScaffoldComponent extends LoggableComponent implements OnInit, OnDe
     .subscribe((language: Language) => {
       setTimeout(() => {
         // this.log('ScaffoldComponent language:', language);
-        const translatedNavigationList = [];
-        this.navigationList.forEach((element: any) => {
+        const translatedNavigationList: NavListItems = [];
+        // this.navigationList.forEach((element: any) => {
+          menu.forEach((element: any) => {
           translatedNavigationList.push({
             ...element,
             label: this.translate.instant(element.title, language),
@@ -122,6 +101,108 @@ export class ScaffoldComponent extends LoggableComponent implements OnInit, OnDe
         (this.sidenav as any).redraw();
       });
     });
+
+    // this.twig.init(red5Config);
+    this.user$.pipe(
+      takeUntil(this.stop$),
+      distinctUntilChanged(),
+    )
+    .subscribe((user: UserState | undefined) => {
+      this.log('ScaffoldComponent - user$:', user);
+      if (user) {
+        this.log('ScaffoldComponent - TODO: initialize all after user is set...');
+        // this.twig.connect();
+        // this.feathers.serviceFindWatch('composition')
+        // .pipe(
+        //   takeUntil(this.stop$),
+        //   distinctUntilChanged(),
+        //   // our data is paginated, so map to .data
+        //   map((m: Paginated<any>) => {
+        //     this.log('***** AppComponent. twig.listCompositions() map m:', m);
+        //     return m.data;
+        //   }),
+        //   // reverse the messages array, to have the most recent message at the end
+        //   // necessary because we get a descendingly sorted array from the data service
+        //   map((m: Array<any>) => m.reverse()),
+        // );
+        // .subscribe((compositions: any[]) => {
+        //   this.log('***** AppComponent. twig.listCompositions():', compositions);
+        //   this.store.dispatch(actionCompositionsChange({compositions}));
+        // });
+
+        // this.feathers.serviceFindWatch('event')
+        // .pipe(
+        //   takeUntil(this.stop$),
+        //   distinctUntilChanged(),
+        // )
+        // .subscribe((events: any[]) => {
+        //   this.log('***** AppComponent. watch events:', events);
+        //   this.store.dispatch(actionEventsChange({events}));
+        // });
+
+        // this.feathers.serviceFindWatch('composition')
+        // .pipe(
+        //   takeUntil(this.stop$),
+        //   distinctUntilChanged(),
+        // )
+        // .subscribe((compositions: any[]) => {
+        //   this.log('***** AppComponent. watch compositions:', compositions);
+        //   this.store.dispatch(actionCompositionsChange({compositions}));
+        // });
+
+        // this.feathers.serviceFindWatch('mixer')
+        // .pipe(
+        //   takeUntil(this.stop$),
+        //   distinctUntilChanged(),
+        // )
+        // .subscribe((mixers: any[]) => {
+        //   this.log('***** AppComponent. watch mixers:', mixers);
+        //   this.store.dispatch(actionMixersChange({mixers}));
+        // });
+
+        // this.feathers.serviceFindWatch('group')
+        // .pipe(
+        //   takeUntil(this.stop$),
+        //   distinctUntilChanged(),
+        // )
+        // .subscribe((groups: any[]) => {
+        //   this.log('***** AppComponent. watch groups:', groups);
+        //   this.store.dispatch(actionGroupsChange({groups}));
+        // });
+      }
+      // this.feathers.error$
+      // .pipe(
+      //   takeUntil(this.stop$),
+      // )
+      // .subscribe((context: HookContext) => {
+      //   this.error(`***** AppComponent Error from feathers in "${context.path}" service service "${context.service}" method "${context.method}"`, context.error.stack);
+      //   console.log('context.error: ', context.error);
+      //   console.log('context: ', context);
+      // });
+    });
+
+    this.sessionId$.pipe(
+      takeUntil(this.stop$),
+      distinctUntilChanged(),
+    )
+    .subscribe((sessionId: string | undefined) => {
+      this.log('ScaffoldComponent - sessionId$:', sessionId);
+      if (sessionId) {
+        this.log('ScaffoldComponent - TODO: initialize all after session is set...');
+        // this.feathers.serviceGetWatch('session', sessionId!)
+        // .pipe(
+        //   takeUntil(this.stop$),
+        //   distinctUntilChanged(),
+        // )
+        // .subscribe((session: any) => {
+        //   this.log('***** AppComponent. watch session:', session);
+        //   this.store.dispatch(actionSessionChange(session));
+        // });
+      }
+      else {
+        this.store.dispatch(actionSessionChange({}));
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -131,6 +212,7 @@ export class ScaffoldComponent extends LoggableComponent implements OnInit, OnDe
 
   logout(): void {
     this.log('ScaffoldComponent.logout()');
+    this.auth.logout();
     // this.auth.callApiLogout()
     // .then((result) => {
     //   this.log('ScaffoldComponent.logout() result:', result);
@@ -142,7 +224,4 @@ export class ScaffoldComponent extends LoggableComponent implements OnInit, OnDe
     // });
   }
 
-  // openedChange(evt): void {
-  //   this.log('evt:', evt);
-  // }
 }

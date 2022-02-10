@@ -1,11 +1,20 @@
-<easy-sidenav #sidenav>
+<easy-sidenav #sidenav *ngIf="!(user$ | async)" class="sidenav1">
+  <router-outlet *ngIf="(ready$ | async) ?? true"></router-outlet>
+</easy-sidenav>
+<easy-sidenav #sidenav *ngIf="!!(user$ | async)" class="sidenav2">
+  <easy-button
+  class="sidenav"
+  label="Logout"
+  (click)="logout()"
+  ></easy-button>
   <easy-nav-list
   class="sidenav"
   [list]="translatedNavigationList"
   ></easy-nav-list>
   <div class="wrapper">
-
-    <easy-browser-tabs>
+  <!-- *ngIf="(ready$ | async) ?? true"> -->
+    <easy-browser-tabs [logs]="false"
+    [show]="(ready$ | async) ?? true">
       <easy-button-icon
       beforeNavButtons
       color=""
@@ -13,24 +22,6 @@
       (click)="sidenav.toggle()"
       ></easy-button-icon>
     </easy-browser-tabs>
-
-<!--
-    <mat-toolbar color="primary">
-      <button mat-icon-button class="d-md-none" (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <button mat-icon-button class="" aria-label="Storybox">
-        <img class="icon" src="assets/icons/logo.png">
-      </button>
-      <span class="spacer"></span>
-      <span>Story Box</span>
-      <span class="spacer"></span>
-      <mat-icon color="accent">lock</mat-icon>
-    </mat-toolbar>
-    <div class="content">
-      <ng-content></ng-content>
-    </div>
--->
   </div>
 </easy-sidenav>
 <app-theme-manager></app-theme-manager>

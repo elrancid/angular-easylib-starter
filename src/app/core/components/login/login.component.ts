@@ -8,7 +8,7 @@ import { ComponentTab, OnComponentTabActivate } from '@easylib/material';
 
 // import { LoggableComponent } from '@easylib/log';
 // import { AuthService } from 'src/app/core/auth/auth.service';
-import { AuthService } from 'src/app/core/feathers/auth.service';
+import { AuthService } from 'src/app/core/auth/auth.service';
 import { FormStructure } from '@easylib/core';
 import { TranslateService } from '@ngx-translate/core';
 import { FormService } from 'src/app/core/services/form/form.service';
@@ -120,7 +120,7 @@ export class LoginComponent extends FormManagerComponent implements OnInit, OnDe
   }
 
   // private login(email: string, password: string) {
-  private login(credentials: any) {
+  private login(credentials: Record<string, any>) {
     this.log('LoginComponent.login() credentials:', credentials);
     // if (!email || !password) {
     //   this.messages.push('Incomplete credentials!');
@@ -129,12 +129,12 @@ export class LoginComponent extends FormManagerComponent implements OnInit, OnDe
     // try to authenticate with feathers
     this.auth.login(credentials)
     // navigate to base URL on success
-    .then((result) => {
+    .then((result: any) => {
       this.log('LoginComponent.login() login success result:', result);
       // this.router.navigate(['/']);
       this.errorMessage = '';
     })
-    .catch((error) => {
+    .catch((error: any) => {
       this.log('LoginComponent.login() wrong credentials. error:', error);
       // this.messages.unshift('Wrong credentials!');
       this.errorMessage = this.translate.instant('errors.' + error.code);

@@ -1,4 +1,4 @@
-import { User } from '../../red5/declarations';
+import { User } from '../../../shared/red5/declarations';
 
 export interface UserState extends User {}
 
